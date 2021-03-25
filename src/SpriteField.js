@@ -17,7 +17,6 @@ class SpriteField {
       this.setupWorld();
       this.populateSpriteField(200,200,5);
       this.renderFrame();
-
     }
 
     setupWorld() {
@@ -60,6 +59,18 @@ class SpriteField {
 
    }
 
+   sinewaveAnimation(x) {
+    let amplitude = 50;
+		let theta = 0;
+    let frequency = 1000;
+
+    var o = ((Math.PI * 2) * x)/frequency;
+		o += theta;
+		var y = amplitude * Math.sin(o);
+    
+    return y;
+   }
+
    populateSpriteField(rows,cols,gaps) {
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
@@ -70,7 +81,7 @@ class SpriteField {
       for ( let c = 0; c < cols; c ++) {
         const n =  (r*(rows)  +c)
         const x = r * gaps;
-        const y = 0;
+        const y = this.sinewaveAnimation(x);
         const z = c * gaps;
 
         vertices.push( x, y, z );
@@ -81,7 +92,7 @@ class SpriteField {
     geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
 
 
-    const material = new THREE.PointsMaterial( { size: 2, map: whiteSprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
+    const material = new THREE.PointsMaterial( { size: 4, map: whiteSprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
     const particles = new THREE.Points( geometry, material );
 
     this.scene.add(particles);
