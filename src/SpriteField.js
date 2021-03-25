@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
+import whiteSpriteFile from './textures/white-sprite.png';
 
 class SpriteField {
 
@@ -14,6 +15,7 @@ class SpriteField {
       this.renderFrame = this.renderFrame.bind(this);
 
       this.setupWorld();
+      this.populateSpriteField();
       this.renderFrame();
 
     }
@@ -28,7 +30,7 @@ class SpriteField {
 
       //setup the camera
       this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.2, 5000);
-      this.camera.position.set(20, 20, 20);
+      this.camera.position.set(100, 100, 100);
       this.camera.lookAt(new THREE.Vector3(0,0,0));
 
       //setup renderer
@@ -44,7 +46,7 @@ class SpriteField {
        //setup controls
        let controls = new OrbitControls( this.camera, this.renderer.domElement);
        controls.minDistance = 0;
-       controls.maxDistance = 200;
+       controls.maxDistance = 500;
 
        //add lighting
        const skyColor = 0xB1E1FF;  // light blue
@@ -56,6 +58,31 @@ class SpriteField {
 
        document.body.appendChild( this.stats.dom );;
 
+   }
+
+   populateSpriteField() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const textureLoader = new THREE.TextureLoader();
+		const whiteSprite = textureLoader.load(whiteSpriteFile);
+
+    for ( let i = 0; i < 10000; i ++ ) {
+
+      const x = Math.random() * 200 - 0;
+      const y = Math.random() * 200 - 0;
+      const z = Math.random() * 200 - 0;
+
+      vertices.push( x, y, z );
+
+    }
+
+    geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+
+    const material = new THREE.PointsMaterial( { size: 2, map: whiteSprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
+    const particles = new THREE.Points( geometry, material );
+
+    this.scene.add(particles);
    }
 
    renderFrame() {
