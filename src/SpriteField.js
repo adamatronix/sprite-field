@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 
 class SpriteField {
 
@@ -9,6 +10,7 @@ class SpriteField {
       this.scene = null;
       this.camera = null;
       this.renderer = null;
+      this.stats = new Stats();
       this.renderFrame = this.renderFrame.bind(this);
 
       this.setupWorld();
@@ -52,10 +54,13 @@ class SpriteField {
        light.position.set(0,100,0);
        this.scene.add(light);
 
+       document.body.appendChild( this.stats.dom );;
+
    }
 
    renderFrame() {
     this.renderer.render( this.scene, this.camera );
+    this.stats.update();
     requestAnimationFrame(this.renderFrame);
   }
 }
