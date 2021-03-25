@@ -3,10 +3,10 @@ const path = require('path')
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'my.module.js',
+    filename: 'sprite.field.js',
     path: path.resolve(__dirname, 'lib'),
     libraryTarget: 'var',
-    library: 'MyModule'
+    library: 'SpriteField'
   },
   node: {
     fs: 'empty'

@@ -1,7 +1,3 @@
-// Add all your modules here to be exported
+import SpriteField from './SpriteField';
 
-/*
-import Example from './Example';
-
-export default Example;
-*/
+export default SpriteField;
