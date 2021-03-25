@@ -15,7 +15,7 @@ class SpriteField {
       this.renderFrame = this.renderFrame.bind(this);
 
       this.setupWorld();
-      this.populateSpriteField();
+      this.populateSpriteField(200,200,5);
       this.renderFrame();
 
     }
@@ -46,7 +46,7 @@ class SpriteField {
        //setup controls
        let controls = new OrbitControls( this.camera, this.renderer.domElement);
        controls.minDistance = 0;
-       controls.maxDistance = 500;
+       controls.maxDistance = 1000;
 
        //add lighting
        const skyColor = 0xB1E1FF;  // light blue
@@ -60,19 +60,21 @@ class SpriteField {
 
    }
 
-   populateSpriteField() {
+   populateSpriteField(rows,cols,gaps) {
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
     const textureLoader = new THREE.TextureLoader();
 		const whiteSprite = textureLoader.load(whiteSpriteFile);
 
-    for ( let i = 0; i < 10000; i ++ ) {
+    for ( let r = 0; r < rows; r ++ ) {
+      for ( let c = 0; c < cols; c ++) {
+        const n =  (r*(rows)  +c)
+        const x = r * gaps;
+        const y = 0;
+        const z = c * gaps;
 
-      const x = Math.random() * 200 - 0;
-      const y = Math.random() * 200 - 0;
-      const z = Math.random() * 200 - 0;
-
-      vertices.push( x, y, z );
+        vertices.push( x, y, z );
+      }
 
     }
 
